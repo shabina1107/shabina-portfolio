@@ -1,92 +1,155 @@
+// ============================
+// package.json (ROOT)
+// ============================
+{
+  "name": "shabina-portfolio",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "next": "14.2.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "framer-motion": "^11.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "jest": "^29.0.0"
+  }
+}
+
+// ============================
+// app/layout.tsx
+// ============================
+
+import "./globals.css";
+
+export const metadata = {
+  title: "Shabina Bozai | Principal Java Architect",
+  description: "Enterprise modernization, Java 21, microservices, cloud architecture",
+};
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
+
+// ============================
+// app/page.tsx
+// ============================
+
+import PortfolioSite from "../components/PortfolioSite";
+
+export default function Home() {
+  return <PortfolioSite />;
+}
+
+// ============================
+// components/PortfolioSite.tsx
+// ============================
+
+"use client";
+
 import React, { useState } from "react";
-import Head from "next/head";
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+
+function NavLink({ href, children }) {
+  return <a href={href} className="hover:underline">{children}</a>;
+}
 
 export default function PortfolioSite() {
   const [dark, setDark] = useState(false);
 
   return (
-    <div className={dark ? "dark bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"}>
-      <Head>
-        <title>Shabina Bozai | Principal Java Architect</title>
-        <meta name="description" content="Principal Software Engineer specializing in Java 21, microservices, cloud modernization, and AI-assisted development." />
-      </Head>
+    <div className={dark ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"}>
 
-      <header className="flex justify-between items-center p-6 max-w-6xl mx-auto">
+      <header className="flex justify-between p-6 max-w-6xl mx-auto">
         <h1 className="font-bold text-xl">Shabina Bozai</h1>
-        <div className="flex gap-4 items-center">
-          <Link href="#projects">Projects</Link>
-          <Link href="#blog">Blog</Link>
-          <Link href="#resume">Resume</Link>
-          <Link href="#contact">Contact</Link>
-          <Button variant="outline" onClick={() => setDark(!dark)}>
-            {dark ? "Light" : "Dark"} Mode
-          </Button>
-        </div>
+        <nav className="flex gap-4">
+          <NavLink href="#projects">Projects</NavLink>
+          <NavLink href="#blog">Blog</NavLink>
+          <NavLink href="#resume">Resume</NavLink>
+          <NavLink href="#contact">Contact</NavLink>
+          <button onClick={() => setDark(!dark)}>
+            {dark ? "Light" : "Dark"}
+          </button>
+        </nav>
       </header>
 
       <main className="p-6 grid gap-16 max-w-6xl mx-auto">
 
-        {/* Hero */}
-        <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center space-y-4">
+        <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <h2 className="text-5xl font-bold">Principal Software Engineer & Java Architect</h2>
-          <p className="text-xl">Enterprise Modernization • Microservices • Cloud • AI Engineering</p>
-          <Button>Download Resume</Button>
+          <p>Enterprise Modernization • Microservices • Cloud</p>
         </motion.section>
 
-        {/* About */}
-        <Card className="rounded-2xl shadow-md">
-          <CardContent className="p-6 space-y-3">
-            <h3 className="text-2xl font-semibold">About Me</h3>
-            <p>20+ years modernizing large-scale enterprise platforms across healthcare, finance, and telecom using Java and cloud-native architecture.</p>
-          </CardContent>
-        </Card>
-
-        {/* Projects */}
-        <section id="projects" className="grid md:grid-cols-2 gap-6">
-          {["Healthcare Modernization", "Secure API Platform", "Cloud Migration", "AI Dev Automation"].map(p => (
-            <Card key={p} className="rounded-2xl shadow-md">
-              <CardContent className="p-6">
-                <h4 className="font-semibold text-lg">{p}</h4>
-                <p className="text-gray-500 dark:text-gray-400">Case study with business metrics and architecture diagrams.</p>
-              </CardContent>
-            </Card>
-          ))}
+        <section id="projects">
+          <h3>Projects</h3>
+          <ul>
+            <li>Healthcare Modernization</li>
+            <li>Secure API Platform</li>
+            <li>Cloud Migration</li>
+            <li>AI Automation</li>
+          </ul>
         </section>
 
-        {/* Blog */}
-        <section id="blog" className="space-y-4">
-          <h3 className="text-2xl font-semibold">Engineering Blog</h3>
-          <Card><CardContent className="p-4">Scaling Java 21 Microservices with Virtual Threads</CardContent></Card>
-          <Card><CardContent className="p-4">Legacy to Cloud-Native Architecture Patterns</CardContent></Card>
+        <section id="blog">
+          <h3>Blog</h3>
+          <p>Scaling Java 21 Microservices</p>
         </section>
 
-        {/* Resume */}
-        <section id="resume" className="space-y-4">
-          <h3 className="text-2xl font-semibold">Resume</h3>
-          <p>Download full resume PDF or view experience timeline.</p>
-          <Button>Download PDF</Button>
+        <section id="resume">
+          <h3>Resume</h3>
+          <button>Download PDF</button>
         </section>
 
-        {/* Contact */}
-        <section id="contact" className="space-y-4">
-          <h3 className="text-2xl font-semibold">Contact</h3>
-          <form className="grid gap-3 max-w-md">
-            <input className="p-2 rounded border" placeholder="Name" />
-            <input className="p-2 rounded border" placeholder="Email" />
-            <textarea className="p-2 rounded border" placeholder="Message" />
-            <Button>Send Message</Button>
-          </form>
+        <section id="contact">
+          <h3>Contact</h3>
           <p>Email: shabina.bozai@gmail.com</p>
         </section>
 
       </main>
 
-      {/* Analytics placeholder */}
-      <footer className="text-center text-sm p-6 text-gray-500">© 2026 Shabina Bozai • Analytics Enabled</footer>
+      <footer className="text-center p-6">© 2026 Shabina Bozai</footer>
     </div>
   );
 }
+
+// ============================
+// __tests__/PortfolioSite.test.tsx
+// ============================
+
+import { render, screen, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import PortfolioSite from "../components/PortfolioSite";
+
+test("renders navigation links", () => {
+  render(<PortfolioSite />);
+  expect(screen.getByText("Projects")).toBeInTheDocument();
+  expect(screen.getByText("Blog")).toBeInTheDocument();
+  expect(screen.getByText("Resume")).toBeInTheDocument();
+  expect(screen.getByText("Contact")).toBeInTheDocument();
+});
+
+test("renders section anchors", () => {
+  render(<PortfolioSite />);
+  expect(document.querySelector("#projects")).toBeTruthy();
+  expect(document.querySelector("#blog")).toBeTruthy();
+  expect(document.querySelector("#resume")).toBeTruthy();
+  expect(document.querySelector("#contact")).toBeTruthy();
+});
+
+test("dark mode toggles", () => {
+  render(<PortfolioSite />);
+  const toggle = screen.getByText(/dark/i);
+  fireEvent.click(toggle);
+  expect(document.body.textContent).toContain("Light");
+});
